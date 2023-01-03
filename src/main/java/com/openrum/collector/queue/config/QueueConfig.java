@@ -19,13 +19,13 @@ public class QueueConfig {
     @Autowired
     private QueueProperties queueProperties;
 
-    @Bean("processorQueue")
+    @Bean("taskQueue")
     @ConditionalOnProperty(prefix = "queue",name = "type",havingValue = "local")
     public DataQueue processorQueue(){
         return new LocalDataQueue(queueProperties.getSize());
     }
 
-    @Bean("exporterQueue")
+    @Bean("resultQueue")
     @ConditionalOnProperty(prefix = "queue",name = "type",havingValue = "local")
     public DataQueue exporterQueue(){
         return new LocalDataQueue(queueProperties.getSize());

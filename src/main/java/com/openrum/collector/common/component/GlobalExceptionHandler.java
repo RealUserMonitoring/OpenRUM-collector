@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
     @ExceptionHandler(value = MemorySafeException.class)
     public Result memorySafeExceptionHandler(MemorySafeException e){
         log.error("Business exception occurred! as a result of：{}",e.getMessage());

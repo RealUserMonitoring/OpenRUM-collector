@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("receiver")
 public class ReceiverController {
 
-    @Qualifier("processorQueue")
+
     @Autowired
+    @Qualifier("taskQueue")
     private DataQueue processorDataQueue;
 
     @PostMapping("send")

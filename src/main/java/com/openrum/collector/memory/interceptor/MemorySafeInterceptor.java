@@ -28,6 +28,6 @@ public class MemorySafeInterceptor implements HandlerInterceptor {
         if(!memoryInfo.enoughMemory()){
             throw new MemorySafeException();
         }
-        return false;
+        return true;
     }
 }
