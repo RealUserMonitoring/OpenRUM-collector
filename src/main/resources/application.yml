@@ -1,0 +1,10 @@
+server:
+  port: 11111
+Login:
+  username: admin
+  password: admin
+memory:
+  maxFreeMemory: 128
+queue:
+  type: local
+  size: 100000
