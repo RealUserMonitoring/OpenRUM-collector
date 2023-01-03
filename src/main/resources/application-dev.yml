@@ -1,0 +1,25 @@
+Login:
+  username: admin
+  password: admin
+memory:
+  maxFreeMemory: 128
+queue:
+  type: local
+  size: 100000
+
+spring:
+  cloud:
+    nacos:
+      username:
+      password:
+      server-addr:
+      discovery:
+        namespace:
+      config:
+        namespace:
+        timeout: 3000
+        refresh-enabled: true  #修改后自动加载
+        group:
+        prefix:
+        file-extension:
+

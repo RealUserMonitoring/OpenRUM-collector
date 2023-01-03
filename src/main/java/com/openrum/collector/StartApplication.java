@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties
+//@EnableDiscoveryClient
 public class StartApplication {
 
     public static void main(String[] args) {

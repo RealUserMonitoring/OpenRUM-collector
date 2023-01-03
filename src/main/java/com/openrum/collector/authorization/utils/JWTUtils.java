@@ -6,7 +6,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.openrum.collector.authorization.domain.User;
-import org.apache.http.util.Asserts;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 
 import java.util.Calendar;
 
@@ -42,12 +43,10 @@ public class JWTUtils {
     /**
      * 验证token合法性 成功返回token
      */
-    public static DecodedJWT verify(String token){
-        Asserts.notBlank(token,"token");
+    public static DecodedJWT verify(String token, String realPassword){
+        Assert.isTrue(StringUtils.isNotBlank(token),"token is empty");
 
-        //获取登录用户真正的密码假如数据库查出来的是123456
-        String password = "admin";
-        JWTVerifier build = JWT.require(Algorithm.HMAC256(password)).build();
+        JWTVerifier build = JWT.require(Algorithm.HMAC256(realPassword)).build();
         return build.verify(token);
     }
 }

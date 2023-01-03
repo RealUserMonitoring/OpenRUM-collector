@@ -3,6 +3,8 @@ package com.openrum.collector.memory.interceptor;
 import com.openrum.collector.memory.domain.MemoryInfo;
 import com.openrum.collector.memory.exception.MemorySafeException;
 import com.openrum.collector.utils.SpringUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author: lou renzheng
  * @create: 2022-12-29
  **/
+@Component
+@Slf4j
 public class MemorySafeInterceptor implements HandlerInterceptor {
 
     @Override
@@ -26,6 +30,7 @@ public class MemorySafeInterceptor implements HandlerInterceptor {
         System.runFinalization();
 
         if(!memoryInfo.enoughMemory()){
+            log.error("not enough memory");
             throw new MemorySafeException();
         }
         return true;

@@ -7,7 +7,8 @@ import com.openrum.collector.authorization.exception.AuthorizationException;
 import com.openrum.collector.authorization.utils.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.util.Asserts;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,15 +20,18 @@ import javax.servlet.http.HttpServletResponse;
  * @create: 2022-12-29 11:37
  **/
 @Slf4j
+@Component
 public class JWTInterceptor implements HandlerInterceptor {
+
+    @Value("${login.password}")
+    private String realPassword;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws AuthorizationException {
         String token = request.getHeader("token");
-        Asserts.notBlank(token,"token");
         String msg = StringUtils.EMPTY;
         try {
-            JWTUtils.verify(token);
+            JWTUtils.verify(token,realPassword);
             return true;
         } catch (SignatureVerificationException e) {
             log.error("Invalid signature ->", e);
