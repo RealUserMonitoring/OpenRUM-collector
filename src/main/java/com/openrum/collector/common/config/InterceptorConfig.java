@@ -1,4 +1,4 @@
-package com.openrum.collector.config;
+package com.openrum.collector.common.config;
 
 import com.openrum.collector.authorization.config.JWTInterceptor;
 import com.openrum.collector.memory.interceptor.MemorySafeInterceptor;

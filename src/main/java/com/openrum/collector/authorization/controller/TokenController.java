@@ -1,8 +1,10 @@
 package com.openrum.collector.authorization.controller;
 
+import com.openrum.collector.authorization.domain.DefaultUserProperties;
 import com.openrum.collector.authorization.domain.User;
 import com.openrum.collector.authorization.utils.JWTUtils;
 import com.openrum.collector.common.domain.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +25,18 @@ public class TokenController {
     @Value("${login.password}")
     private String realPassword;
 
-    @GetMapping("getToken")
-    public Result login(String username, String password) {
-        if (realUsername.equals(username) && realPassword.equals(password)) {
+    @Autowired
+    private DefaultUserProperties defaultUserProperties;
 
-            return Result.success(JWTUtils.getToken(new User(username,password)));
+    @GetMapping("getToken")
+    public Result getToken(String username, String password) {
+
+        if (!defaultUserProperties.check(username,password)) {
+            return Result.error("authentication failed!Wrong account or password!");
         }
-        return Result.error("authentication failed!Wrong account or password!");
+
+        return Result.success(JWTUtils.getToken(new User(username,password)));
+
+
     }
 }

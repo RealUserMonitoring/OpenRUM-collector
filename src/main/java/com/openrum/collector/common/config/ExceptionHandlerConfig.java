@@ -1,4 +1,4 @@
-package com.openrum.collector.common.component;
+package com.openrum.collector.common.config;
 
 import com.openrum.collector.authorization.exception.AuthorizationException;
 import com.openrum.collector.common.domain.Result;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  **/
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class ExceptionHandlerConfig {
 
     /**
      * Handling custom authentication exceptions

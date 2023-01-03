@@ -1,4 +1,4 @@
-Login:
+login:
   username: admin
   password: admin
 memory:
@@ -6,6 +6,15 @@ memory:
 queue:
   type: local
   size: 100000
+executor:
+  processor:
+    corePoolSize: 3
+    maxPoolSize: 10
+    queueSize: 2000
+  exporter:
+    corePoolSize: 3
+    maxPoolSize: 10
+    queueSize: 2000
 
 spring:
   cloud:
