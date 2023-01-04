@@ -19,3 +19,8 @@ executor:
     maxPoolSize: 10
     queueSize: 2000
 
+timing.data:
+  domLoading: 500
+  domInteractive: 500
+
+
