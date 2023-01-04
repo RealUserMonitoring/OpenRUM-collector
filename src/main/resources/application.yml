@@ -1,6 +1,20 @@
 server:
   port: 11111
-spring:
-  profiles:
-    active: dev
+login:
+  username: admin
+  password: admin
+memory:
+  maxFreeMemory: 128
+queue:
+  type: local
+  size: 100000
+executor:
+  processor:
+    corePoolSize: 3
+    maxPoolSize: 10
+    queueSize: 2000
+  exporter:
+    corePoolSize: 3
+    maxPoolSize: 10
+    queueSize: 2000
 
