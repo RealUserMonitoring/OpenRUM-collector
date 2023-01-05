@@ -13,6 +13,7 @@ spring:
         namespace: RUM_ALI
         group: openrum-collector
       config:
+        server-addr: 10.241.60.20:8848
         namespace: RUM_ALI
         timeout: 3000
         refresh-enabled: true  #修改后自动加载

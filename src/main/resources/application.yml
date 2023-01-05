@@ -24,3 +24,8 @@ timing.data:
   domInteractive: 500
 
 
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    com.bonree.stm: info
+
