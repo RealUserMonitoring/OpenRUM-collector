@@ -20,12 +20,16 @@ public class ExporterScheduling extends QuartzJobBean {
     @Qualifier(value = "resultQueue")
     private DataQueue resultQueue;
 
+    @Resource
+    private ExporterServer exporterServer;
+
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         log.info("Scheduling export data to backend, list size:{}", resultQueue.size());
         if (!resultQueue.isEmpty()) {
-            List<Object> list = new ArrayList<>();
-            resultQueue.drainTo(list);
+            List<Object> sendList = new ArrayList<>();
+            resultQueue.drainTo(sendList);
+            exporterServer.exportData(sendList);
         }
     }
 }

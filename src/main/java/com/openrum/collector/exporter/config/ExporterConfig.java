@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class ExporterConfig {
 
     @Resource
-    private ExporterProperties config;
+    private ExporterProperties properties;
 
     @Bean
     public JobDetail jobDetail() {
@@ -28,7 +28,7 @@ public class ExporterConfig {
 
     @Bean
     public Trigger jobTrigger() {
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(config.getConfigTime());
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(properties.getConfigTime());
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail())
                 .withIdentity("Exporter Trigger")
