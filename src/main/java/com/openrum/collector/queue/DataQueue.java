@@ -1,5 +1,7 @@
 package com.openrum.collector.queue;
 
+import java.util.Collection;
+
 /**
  * @description: data queue
  * @author: lou renzheng
@@ -12,4 +14,8 @@ public interface DataQueue<T> {
     T poll();
 
     int size();
+
+    int drainTo(Collection<? super T> c);
+
+    boolean isEmpty();
 }

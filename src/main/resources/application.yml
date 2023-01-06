@@ -23,6 +23,11 @@ timing.data:
   domLoading: 500
   domInteractive: 500
 
+sender.batch:
+  batchSendSize: 10
+  configTime: 200
+  retryTimes: 3
+
 
 logging:
   config: classpath:logback-spring.xml

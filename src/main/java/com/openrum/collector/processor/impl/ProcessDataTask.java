@@ -1,4 +1,4 @@
-package com.openrum.collector.processor.task;
+package com.openrum.collector.processor.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

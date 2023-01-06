@@ -1,4 +1,4 @@
-package com.openrum.collector.processor.task;
+package com.openrum.collector.processor;
 
 import java.util.Map;
 

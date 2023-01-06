@@ -2,6 +2,7 @@ package com.openrum.collector.queue.impl;
 
 import com.openrum.collector.queue.DataQueue;
 
+import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -12,7 +13,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class LocalDataQueue<T> implements DataQueue<T> {
 
     private ArrayBlockingQueue<T> dataQueue;
-
 
     public LocalDataQueue(Integer size) {
         dataQueue = new ArrayBlockingQueue<>(size);
@@ -32,4 +32,15 @@ public class LocalDataQueue<T> implements DataQueue<T> {
     public int size() {
         return dataQueue.size();
     }
+
+    @Override
+    public int drainTo(Collection<? super T> c) {
+        return dataQueue.drainTo(c);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return dataQueue.isEmpty();
+    }
+
 }

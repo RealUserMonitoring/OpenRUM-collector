@@ -1,4 +1,4 @@
-package com.openrum.collector.processor.task;
+package com.openrum.collector.processor.impl;
 
 import com.openrum.collector.queue.DataQueue;
 import org.springframework.beans.factory.annotation.Autowired;
