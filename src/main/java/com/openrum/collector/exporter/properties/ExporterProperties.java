@@ -14,4 +14,6 @@ public class ExporterProperties {
     private String configTime;
 
     private int retryTimes;
+
+    private String url;
 }

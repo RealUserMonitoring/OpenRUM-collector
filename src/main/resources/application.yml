@@ -24,10 +24,10 @@ timing.data:
   domInteractive: 500
 
 sender.batch:
-  batchSendSize: 10
-  configTime: 200
+  batchSendSize: 2
+  configTime: 0 0/1 * * * ?
   retryTimes: 3
-
+  url: http://192.168.150.87:2222/receiver/send
 
 logging:
   config: classpath:logback-spring.xml
