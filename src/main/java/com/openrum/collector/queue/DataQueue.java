@@ -1,6 +1,8 @@
 package com.openrum.collector.queue;
 
-import java.util.Collection;
+import com.openrum.collector.exporter.DataWrapper;
+
+import java.util.List;
 
 /**
  * @description: data queue
@@ -15,7 +17,7 @@ public interface DataQueue<T> {
 
     int size();
 
-    int drainTo(Collection<? super T> c);
+    int drainTo(List<DataWrapper> c);
 
     boolean isEmpty();
 }

@@ -1,6 +1,7 @@
 package com.openrum.collector.processor.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.openrum.collector.exporter.DataWrapper;
 import com.openrum.collector.exporter.job.ExporterServer;
 import com.openrum.collector.exporter.properties.ExporterProperties;
 import com.openrum.collector.processor.ProcessData;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,25 +44,29 @@ public class TaskHandler implements ProcessData {
     private ExecutorService exporterExecutor;
 
     @Override
-    public void filterData(Map<String, Object> map) {
+    public void filterData(DataWrapper data) {
         try {
-            String sessionId = map.get("session_id").toString();
+            String sessionId = data.getSessionId();
+            HashMap<String, Object> map = (HashMap<String,Object>)data.getData();
             List<Map<String, Object>> events = (List<Map<String, Object>>) Optional.ofNullable(map.get("events")).orElse(new ArrayList<>());
-            List<Map<String, Object>> eventsFilterResult = events.stream().filter(event -> isCorrectEvent(sessionId, event)).collect(Collectors.toList());
-            map.put("events", eventsFilterResult);
-            log.info("SessionId:{} export event list size:{}", map.get("session_id"), eventsFilterResult.size());
+            log.info("Receiver accept sessionId:{} event list size:{}.", sessionId, events.size());
 
-            batchSend(map);
+            List<Map<String, Object>> eventsFilterResult = events.stream()
+                    .filter(event -> isCorrectEvent(sessionId, event)).collect(Collectors.toList());
+            map.put("events", eventsFilterResult);
+            log.info("sessionId:{} export event list size:{}", sessionId, eventsFilterResult.size());
+            data.setData(map);
+            batchSend(data);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void batchSend(Map<String, Object> map) {
+    private void batchSend(DataWrapper data) {
         try {
-            resultQueue.put(map);
+            resultQueue.put(data);
             if (resultQueue.size() >= properties.getBatchSendSize()) {
-                List<Object> sendList = new ArrayList<>();
+                List<DataWrapper> sendList = new ArrayList<>();
                 resultQueue.drainTo(sendList);
                 exporterExecutor.submit(() -> exporterServer.exportData(sendList));
             }

@@ -1,5 +1,6 @@
 package com.openrum.collector.processor.impl;
 
+import com.openrum.collector.exporter.DataWrapper;
 import com.openrum.collector.queue.DataQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,9 +30,9 @@ public class ProcessorTaskScheduling extends Thread implements Closeable {
     @Override
     public void run() {
         while (true) {
-            Object object = taskQueue.poll();
-            if (object != null) {
-                processorExecutor.submit(new ProcessDataTask(object));
+            DataWrapper data = (DataWrapper) taskQueue.poll();
+            if (data != null) {
+                processorExecutor.submit(new ProcessDataTask(data));
             }
         }
     }

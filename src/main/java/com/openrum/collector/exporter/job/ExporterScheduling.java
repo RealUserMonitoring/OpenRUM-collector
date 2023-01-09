@@ -1,5 +1,6 @@
 package com.openrum.collector.exporter.job;
 
+import com.openrum.collector.exporter.DataWrapper;
 import com.openrum.collector.queue.DataQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
@@ -26,9 +27,9 @@ public class ExporterScheduling extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext jobExecutionContext) {
         log.info("Scheduling export data to backend, current list size:{}", resultQueue.size());
         if (!resultQueue.isEmpty()) {
-            List<Object> sendList = new ArrayList<>();
+            List<DataWrapper> sendList = new ArrayList<>();
             resultQueue.drainTo(sendList);
-            exporterServer.exportData(sendList);
+//            exporterServer.exportData(sendList);
         }
     }
 }

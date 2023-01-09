@@ -1,5 +1,6 @@
 package com.openrum.collector.exporter.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.openrum.collector.exporter.Exporter;
 import com.openrum.collector.exporter.properties.ExporterProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -25,7 +27,7 @@ public class HttpExporter implements Exporter {
     private RestTemplate restTemplate;
 
     @Override
-    public boolean sendMessage(Object data) {
+    public boolean sendMessage(List<Object> data) {
         String url = properties.getUrl();
         boolean isSuccess = false;
         for (int i = 1; i <= properties.getRetryTimes(); i++) {
@@ -33,7 +35,8 @@ public class HttpExporter implements Exporter {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
                 log.info("backend url: {}", url);
-                HttpEntity<ByteArrayResource> postEntity = new HttpEntity<>(new ByteArrayResource(data.toString().getBytes()), headers);
+                String json = JSON.toJSONString(data);
+                HttpEntity<ByteArrayResource> postEntity = new HttpEntity<>(new ByteArrayResource(json.getBytes()), headers);
                 ResponseEntity<String> response = restTemplate.postForEntity(url, postEntity, String.class);
                 if (response.getStatusCodeValue() == HttpStatus.OK.value()) {
                     log.info("request {}, responseBody is {}", isSuccess, response.getBody());

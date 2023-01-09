@@ -1,8 +1,8 @@
 package com.openrum.collector.processor;
 
-import java.util.Map;
+import com.openrum.collector.exporter.DataWrapper;
 
 public interface ProcessData {
 
-    void filterData(Map<String, Object> map);
+    void filterData(DataWrapper data);
 }

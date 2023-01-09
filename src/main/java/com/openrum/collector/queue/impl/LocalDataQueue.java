@@ -1,8 +1,10 @@
 package com.openrum.collector.queue.impl;
 
+import com.openrum.collector.exporter.DataWrapper;
 import com.openrum.collector.queue.DataQueue;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -34,8 +36,8 @@ public class LocalDataQueue<T> implements DataQueue<T> {
     }
 
     @Override
-    public int drainTo(Collection<? super T> c) {
-        return dataQueue.drainTo(c);
+    public int drainTo(List<DataWrapper> c) {
+        return dataQueue.drainTo((Collection<? super T>) c);
     }
 
     @Override
