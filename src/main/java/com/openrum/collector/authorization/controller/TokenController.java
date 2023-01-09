@@ -5,7 +5,6 @@ import com.openrum.collector.authorization.domain.User;
 import com.openrum.collector.authorization.utils.JWTUtils;
 import com.openrum.collector.common.domain.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("token")
 public class TokenController {
-
-    @Value("${login.username}")
-    private String realUsername;
-
-    @Value("${login.password}")
-    private String realPassword;
 
     @Autowired
     private DefaultUserProperties defaultUserProperties;
