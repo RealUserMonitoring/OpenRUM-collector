@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class HttpExporter implements Exporter {
                 log.info("backend url: {}", url);
                 HttpEntity<ByteArrayResource> postEntity = new HttpEntity<>(new ByteArrayResource(data.toString().getBytes()), headers);
                 ResponseEntity<String> response = restTemplate.postForEntity(url, postEntity, String.class);
-                if (response.getStatusCodeValue() == 200) {
+                if (response.getStatusCodeValue() == HttpStatus.OK.value()) {
                     log.info("request {}, responseBody is {}", isSuccess, response.getBody());
                     isSuccess = true;
                     break;

@@ -18,16 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("receiver")
 public class ReceiverController {
 
-
     @Autowired
     @Qualifier("taskQueue")
-    private DataQueue processorDataQueue;
+    private DataQueue taskQueue;
 
     @PostMapping("send")
     public Result send(@RequestBody String data) throws InterruptedException {
-
-        processorDataQueue.put(data);
-        
+        taskQueue.put(data);
         return Result.success();
     }
 }
