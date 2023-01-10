@@ -15,9 +15,5 @@ public interface DataQueue<T> {
 
     T poll();
 
-    int size();
-
     int drainTo(List<DataWrapper> c);
-
-    boolean isEmpty();
 }
