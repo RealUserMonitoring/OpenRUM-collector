@@ -1,6 +1,7 @@
 package com.openrum.collector.queue.impl;
 
 import com.openrum.collector.exporter.DataWrapper;
+import com.openrum.collector.queue.AbstractDataQueue;
 import com.openrum.collector.queue.DataQueue;
 
 import java.util.Collection;
@@ -12,7 +13,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author: lou renzheng
  * @create: 2022-12-30
  **/
-public class LocalDataQueue<T> implements DataQueue<T> {
+public class LocalDataQueue<T> extends AbstractDataQueue<T> {
 
     private ArrayBlockingQueue<T> dataQueue;
 
@@ -35,7 +36,7 @@ public class LocalDataQueue<T> implements DataQueue<T> {
         return dataQueue.size();
     }
 
-    @Override
+
     public int drainTo(List<DataWrapper> c) {
         return dataQueue.drainTo((Collection<? super T>) c);
     }

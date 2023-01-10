@@ -3,14 +3,11 @@ package com.openrum.collector.common.config;
 import com.openrum.collector.common.domain.ExporterExecutorProperties;
 import com.openrum.collector.common.domain.ProcessorExecutorProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executor;
 
 /**
 *
@@ -32,18 +29,33 @@ public class ExecutorConfig {
 
 
   @Bean("processorExecutor")
-  public ExecutorService processorExecutor() {
-    ExecutorService threadPoolExecutor = new ThreadPoolExecutor(processorExecutorProperties.getCorePoolSize(),
-            processorExecutorProperties.getMaxPoolSize(), 5, TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(processorExecutorProperties.getQueueSize()));
+  public Executor processorExecutor() {
+    ThreadPoolTaskExecutor threadPoolExecutor = createExecutor(
+            processorExecutorProperties.getCorePoolSize(),
+            processorExecutorProperties.getMaxPoolSize(),
+            processorExecutorProperties.getQueueSize());
     return threadPoolExecutor;
   }
 
+
   @Bean("exporterExecutor")
-  public ExecutorService exporterExecutor() {
-    ExecutorService threadPoolExecutor = new ThreadPoolExecutor(exporterExecutorProperties.getCorePoolSize(),
-            exporterExecutorProperties.getMaxPoolSize(), 5, TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(exporterExecutorProperties.getQueueSize()));
+  public Executor exporterExecutor() {
+    ThreadPoolTaskExecutor threadPoolExecutor = createExecutor(
+            exporterExecutorProperties.getCorePoolSize(),
+            exporterExecutorProperties.getMaxPoolSize(),
+            exporterExecutorProperties.getQueueSize());
+    return threadPoolExecutor;
+  }
+
+  private ThreadPoolTaskExecutor createExecutor(Integer processorExecutorProperties, Integer processorExecutorProperties1, Integer processorExecutorProperties2) {
+    ThreadPoolTaskExecutor threadPoolExecutor = new ThreadPoolTaskExecutor();
+    threadPoolExecutor.setCorePoolSize(processorExecutorProperties);
+    threadPoolExecutor.setMaxPoolSize(processorExecutorProperties1);
+    threadPoolExecutor.setQueueCapacity(processorExecutorProperties2);
+    threadPoolExecutor.setKeepAliveSeconds(5);
+    threadPoolExecutor.setWaitForTasksToCompleteOnShutdown(true);
+    threadPoolExecutor.setAwaitTerminationSeconds(10);
+    threadPoolExecutor.initialize();
     return threadPoolExecutor;
   }
 
