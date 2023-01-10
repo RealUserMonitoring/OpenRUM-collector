@@ -13,6 +13,9 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author zhaoc
+ */
 @Slf4j
 @Component
 public class ExporterScheduling extends QuartzJobBean {
@@ -30,7 +33,7 @@ public class ExporterScheduling extends QuartzJobBean {
         if (!resultQueue.isEmpty()) {
             List<DataWrapper> sendList = new ArrayList<>();
             resultQueue.drainTo(sendList);
-//            exporterServer.exportData(sendList);
+            exporterServer.exportData(sendList);
         }
     }
 }

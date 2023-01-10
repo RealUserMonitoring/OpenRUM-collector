@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface Exporter {
 
-    boolean sendMessage(List<Object> data);
+    boolean sendMessage(List<DataWrapper> data);
 }

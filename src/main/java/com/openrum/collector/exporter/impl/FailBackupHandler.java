@@ -18,6 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author zhaoc
+ */
 @Slf4j
 @Component
 public class FailBackupHandler implements FailBackup {
@@ -32,9 +35,13 @@ public class FailBackupHandler implements FailBackup {
         log.info("Start backup failed list, list size:{}", list.size());
         if (CollectionUtils.isNotEmpty(list)) {
             String path = properties.getLocalPath();
-            File file = new File(path + "/" + UUID.randomUUID());
+            File file = new File(path + "/");
             log.info("Write failed list to local disk,file path:{}", file.getPath());
-            try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
+            if (!file.exists()){
+                file.mkdirs();
+            }
+            File f = new File(path + "/" + UUID.randomUUID());
+            try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(f))) {
                 DataWrapper[] arr = new DataWrapper[(list.size())];
                 outputStream.writeObject(list.toArray(arr));
                 outputStream.flush();
@@ -42,7 +49,6 @@ public class FailBackupHandler implements FailBackup {
                 log.error("failed to Serialize list,{}", file.getPath(), e);
             }
         }
-
     }
 
     public List<DataWrapper> deSerialization(String filePath) {
@@ -54,8 +60,9 @@ public class FailBackupHandler implements FailBackup {
         return null;
     }
 
-    public boolean resend(List<DataWrapper> list){
+    public boolean resend(List<DataWrapper> list) {
         return httpExporter.sendMessage(list);
     }
+
 }
 

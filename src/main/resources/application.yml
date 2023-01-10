@@ -18,16 +18,21 @@ executor:
     corePoolSize: 3
     maxPoolSize: 10
     queueSize: 2000
+  resend.exporter:
+    corePoolSize: 3
+    maxPoolSize: 10
+    queueSize: 2000
 
 timing.data:
   domLoading: 500
   domInteractive: 500
 
-sender.batch:
+exporter.send:
   batchSendSize: 2
-  configTime: 0 0/1 * * * ?
-  retryTimes: 3
+  configTime: 0 0/3 * * * ?
+  retryTimes: 1
   url: http://192.168.150.87:2222/receiver/send
+  resendConfigTime: 0 0/1 * * * ?
 
 logging:
   config: classpath:logback-spring.xml

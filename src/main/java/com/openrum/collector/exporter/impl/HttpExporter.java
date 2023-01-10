@@ -18,6 +18,9 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author zhaoc
+ */
 @Slf4j
 @Component
 public class HttpExporter implements Exporter {

@@ -4,9 +4,12 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author zhaoc
+ */
 @Data
 @Component
-@ConfigurationProperties(prefix = "sender.batch")
+@ConfigurationProperties(prefix = "exporter.send")
 public class ExporterProperties {
 
     private int batchSendSize;
@@ -16,4 +19,6 @@ public class ExporterProperties {
     private int retryTimes;
 
     private String url;
+
+    private String resendConfigTime;
 }
