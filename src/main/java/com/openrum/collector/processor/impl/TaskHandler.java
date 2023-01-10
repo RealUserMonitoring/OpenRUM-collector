@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.Executor;
@@ -117,5 +118,18 @@ public class TaskHandler implements ProcessData {
         return null;
     }
 
+
+
+    @PreDestroy
+    public void close(){
+        if(resultQueue.size() == 0){
+            return;
+        }
+        //retry send
+        List<DataWrapper> sendList = new ArrayList<>();
+        resultQueue.drainTo(sendList);
+        exporterServer.exportData(sendList);
+
+    }
 
 }
