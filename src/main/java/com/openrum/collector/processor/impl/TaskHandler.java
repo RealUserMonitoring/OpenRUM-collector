@@ -8,18 +8,14 @@ import com.openrum.collector.processor.ProcessData;
 import com.openrum.collector.processor.config.TimingDataConfig;
 import com.openrum.collector.processor.enums.EnumEventType;
 import com.openrum.collector.processor.enums.TimingDataEnum;
-import com.openrum.collector.queue.DataQueue;
+import com.openrum.collector.queue.AbstractDataQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
+import java.util.*;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,7 +27,7 @@ public class TaskHandler implements ProcessData {
 
     @Resource
     @Qualifier("resultQueue")
-    private DataQueue resultQueue;
+    private AbstractDataQueue resultQueue;
 
     @Resource
     private ExporterProperties properties;
@@ -41,7 +37,7 @@ public class TaskHandler implements ProcessData {
 
     @Resource
     @Qualifier(value = "exporterExecutor")
-    private ExecutorService exporterExecutor;
+    private Executor exporterExecutor;
 
     @Override
     public void filterData(DataWrapper data) {
@@ -65,10 +61,12 @@ public class TaskHandler implements ProcessData {
     private void batchSend(DataWrapper data) {
         try {
             resultQueue.put(data);
-            if (resultQueue.size() >= properties.getBatchSendSize()) {
-                List<DataWrapper> sendList = new ArrayList<>();
-                resultQueue.drainTo(sendList);
-                exporterExecutor.submit(() -> exporterServer.exportData(sendList));
+            synchronized (TaskHandler.class){
+                if (resultQueue.size() >= properties.getBatchSendSize()) {
+                    List<DataWrapper> sendList = new ArrayList<>();
+                    resultQueue.drainTo(sendList);
+                    exporterExecutor.execute(() -> exporterServer.exportData(sendList));
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
