@@ -32,5 +32,10 @@ sender.batch:
 logging:
   config: classpath:logback-spring.xml
   level:
-    com.bonree.stm: info
+    com.openrum: info
+
+fail.backup:
+    localPath: /data/openrum/backup
+
+
 
