@@ -22,8 +22,8 @@ public class MemoryInfo {
     * @return: boolean
     */
     public boolean enoughMemory(){
-        long maxMemory = Runtime.getRuntime().maxMemory();
-        long totalMemory = Runtime.getRuntime().totalMemory();
+        long maxMemory = Runtime.getRuntime().maxMemory()/1024/1024;
+        long totalMemory = Runtime.getRuntime().totalMemory()/1024/1024;
         return maxMemory-totalMemory>this.maxFreeMemory;
     }
 }
