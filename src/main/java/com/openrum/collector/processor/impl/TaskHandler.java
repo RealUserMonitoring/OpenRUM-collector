@@ -1,5 +1,6 @@
 package com.openrum.collector.processor.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.openrum.collector.exporter.DataWrapper;
 import com.openrum.collector.exporter.job.ExporterServer;
@@ -44,7 +45,7 @@ public class TaskHandler implements ProcessData {
     public void filterData(DataWrapper data) {
         try {
             String sessionId = data.getSessionId();
-            HashMap<String, Object> map = (HashMap<String,Object>)data.getData();
+            HashMap<String, Object> map = (HashMap<String, Object>) data.getData();
             List<Map<String, Object>> events = (List<Map<String, Object>>) Optional.ofNullable(map.get("events")).orElse(new ArrayList<>());
             log.info("Receiver accept sessionId:{} event list size:{}.", sessionId, events.size());
 
@@ -62,7 +63,7 @@ public class TaskHandler implements ProcessData {
     private void batchSend(DataWrapper data) {
         try {
             resultQueue.put(data);
-            synchronized (TaskHandler.class){
+            synchronized (TaskHandler.class) {
                 if (resultQueue.size() >= properties.getSendSize()) {
                     List<DataWrapper> sendList = new ArrayList<>();
                     resultQueue.drainTo(sendList);
@@ -103,6 +104,7 @@ public class TaskHandler implements ProcessData {
             }
             int jsonValue = timingData.get(timingDataAttribute) != null ? Integer.parseInt(timingData.get(timingDataAttribute).toString()) : 0;
             if (jsonValue > entry.getValue()) {
+                log.info("sessionId:{}, timing_data:{} is incorrect, event object :{}", sessionId, timingDataAttribute, JSON.toJSON(event));
                 return false;
             }
         }
@@ -119,10 +121,9 @@ public class TaskHandler implements ProcessData {
     }
 
 
-
     @PreDestroy
-    public void close(){
-        if(resultQueue.size() == 0){
+    public void close() {
+        if (resultQueue.size() == 0) {
             return;
         }
         //retry send
