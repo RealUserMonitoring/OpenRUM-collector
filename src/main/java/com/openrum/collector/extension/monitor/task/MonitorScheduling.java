@@ -17,10 +17,10 @@ public class MonitorScheduling extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) {
-        long maxMemory = Runtime.getRuntime().maxMemory();
-        long totalMemory = Runtime.getRuntime().totalMemory();
+        long maxMemory = Runtime.getRuntime().maxMemory()/1024/1024;
+        long totalMemory = Runtime.getRuntime().totalMemory()/1024/1024;
         long freeMemory = maxMemory - totalMemory;
-        log.info("maxMemory:{},totalMemory:{},freeMemory:{}",maxMemory,totalMemory,freeMemory);
+        log.info("maxMemory:{}MB,totalMemory:{}MB,freeMemory:{}MB",maxMemory,totalMemory,freeMemory);
 
     }
 }
