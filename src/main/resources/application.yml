@@ -41,6 +41,10 @@ logging:
 
 fail.backup:
     localPath: /data/openrum/backup
+extension:
+  monitor:
+    intervalInMilliseconds: 3000
+
 
 
 
