@@ -149,7 +149,7 @@
             <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，  命名日志文件，例如log-mybatis-2017-09-21.0.log -->
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${MAX_SIZE}</maxFileSize>
+                <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
             <maxHistory>${MAX_HISTORY}</maxHistory>
         </rollingPolicy>

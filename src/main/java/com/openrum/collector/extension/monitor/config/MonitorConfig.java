@@ -18,7 +18,7 @@ public class MonitorConfig {
     private MonitorProperties properties;
 
     @Bean
-    public JobDetail jobDetail() {
+    public JobDetail monitorJobDetail() {
         return JobBuilder.newJob(MonitorScheduling.class)
                 .withIdentity("Monitor Job")
                 .storeDurably()
@@ -26,12 +26,12 @@ public class MonitorConfig {
     }
 
     @Bean
-    public Trigger jobTrigger() {
+    public Trigger monitorJobTrigger() {
         SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInMilliseconds(properties.getIntervalInMilliseconds())
                 .repeatForever();
         return TriggerBuilder.newTrigger()
-                .forJob(jobDetail())
+                .forJob(monitorJobDetail())
                 .withIdentity("Monitor Trigger")
                 .withSchedule(simpleScheduleBuilder)
                 .build();

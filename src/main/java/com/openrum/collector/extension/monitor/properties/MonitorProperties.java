@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "extension.monitor.interval")
+@ConfigurationProperties(prefix = "extension.monitor")
 public class MonitorProperties {
 
     private long intervalInMilliseconds;
