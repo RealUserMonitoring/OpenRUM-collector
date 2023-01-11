@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "exporter.send")
+@ConfigurationProperties(prefix = "exporter.batch.send")
 public class ExporterProperties {
 
-    private int batchSendSize;
+    private int sendSize;
 
-    private String configTime;
+    private long sendTimeInMilliseconds;
 
     private int retryTimes;
 
     private String url;
 
-    private String resendConfigTime;
+    private long resendTimeInMilliseconds;
 }

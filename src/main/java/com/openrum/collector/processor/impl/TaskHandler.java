@@ -63,7 +63,7 @@ public class TaskHandler implements ProcessData {
         try {
             resultQueue.put(data);
             synchronized (TaskHandler.class){
-                if (resultQueue.size() >= properties.getBatchSendSize()) {
+                if (resultQueue.size() >= properties.getSendSize()) {
                     List<DataWrapper> sendList = new ArrayList<>();
                     resultQueue.drainTo(sendList);
                     exporterExecutor.execute(() -> exporterServer.exportData(sendList));

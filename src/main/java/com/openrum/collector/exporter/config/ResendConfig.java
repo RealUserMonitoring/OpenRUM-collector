@@ -2,9 +2,9 @@ package com.openrum.collector.exporter.config;
 
 import com.openrum.collector.exporter.job.ResendScheduling;
 import com.openrum.collector.exporter.properties.ExporterProperties;
-import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +19,7 @@ public class ResendConfig {
     private ExporterProperties properties;
 
     @Bean
-    public JobDetail jobDetail() {
+    public JobDetail jobDetailResend() {
         return JobBuilder.newJob(ResendScheduling.class)
                 .withIdentity("Resend Job")
                 .storeDurably()
@@ -27,12 +27,14 @@ public class ResendConfig {
     }
 
     @Bean
-    public Trigger jobTrigger() {
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(properties.getResendConfigTime());
+    public Trigger jobTriggerResend() {
+        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+                .withIntervalInMilliseconds(properties.getResendTimeInMilliseconds())
+                .repeatForever();
         return TriggerBuilder.newTrigger()
-                .forJob(jobDetail())
+                .forJob(jobDetailResend())
                 .withIdentity("Resend Trigger")
-                .withSchedule(cronScheduleBuilder)
+                .withSchedule(simpleScheduleBuilder)
                 .build();
     }
 }

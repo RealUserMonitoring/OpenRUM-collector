@@ -1,6 +1,6 @@
 package com.openrum.collector.exporter.job;
 
-import com.openrum.collector.common.domain.ReExporterExecutorProperties;
+import com.openrum.collector.common.domain.ResendExporterExecutorProperties;
 import com.openrum.collector.exporter.DataWrapper;
 import com.openrum.collector.exporter.impl.FailBackupHandler;
 import com.openrum.collector.exporter.properties.FailBackupProperties;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 
 /**
  * @author zhaoc
@@ -37,11 +37,11 @@ public class ResendScheduling extends QuartzJobBean {
     private FailBackupHandler handler;
 
     @Resource
-    @Qualifier(value = "reExporterExecutor")
-    private ExecutorService executorService;
+    @Qualifier(value = "resendExporterExecutor")
+    private Executor resendExporterExecutor;
 
     @Resource
-    private ReExporterExecutorProperties resendProperties;
+    private ResendExporterExecutorProperties resendProperties;
 
     @Resource
     private FailBackupHandler failBackupHandler;
@@ -63,7 +63,7 @@ public class ResendScheduling extends QuartzJobBean {
                 }
                 iterator.remove();
                 CountDownLatch finalCountDownLatch = countDownLatch;
-                executorService.execute(() -> {
+                resendExporterExecutor.execute(() -> {
                     boolean isSuccess = resend(list, finalCountDownLatch);
                     if (isSuccess) {
                         deleteFile(file);
