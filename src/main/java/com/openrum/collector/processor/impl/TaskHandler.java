@@ -128,7 +128,7 @@ public class TaskHandler implements ProcessData {
         //retry send
         List<DataWrapper> sendList = new ArrayList<>();
         resultQueue.drainTo(sendList);
-        exporterServer.exportData(sendList);
+        exporterExecutor.execute(() -> exporterServer.exportData(sendList));
 
     }
 
