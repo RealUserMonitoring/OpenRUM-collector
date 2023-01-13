@@ -162,14 +162,14 @@
         </encoder>
         <!-- 此日志文件只记录debug级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <!--   <level>trace</level> -->
+               <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
 
     <!--Monitor log configure-->
-    <logger name="com.openrum.collector.extension.monitor" level="debug" additivity="true">
+    <logger name="com.openrum.collector.extension.monitor" level="info" additivity="false">
         <appender-ref ref="MONITOR"/>
     </logger>
 
@@ -179,7 +179,6 @@
         <appender-ref ref="INFO_FILE" />
         <appender-ref ref="WARN_FILE" />
         <appender-ref ref="ERROR_FILE" />
-        <appender-ref ref="MONITOR" />
     </root>
 
 </configuration>

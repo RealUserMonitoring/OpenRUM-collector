@@ -27,8 +27,8 @@ public class Result<T> {
         return build(Constant.SUCCESS,msg,data);
     }
 
-    public static Result success(String msg){
-        return success(msg,null);
+    public static<T> Result success(T data){
+        return success("success",data);
     }
 
     public static Result success(){
