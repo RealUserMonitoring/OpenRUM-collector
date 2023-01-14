@@ -47,12 +47,12 @@ public class TaskHandler implements ProcessData {
             String sessionId = data.getSessionId();
             HashMap<String, Object> map = (HashMap<String, Object>) data.getData();
             List<Map<String, Object>> events = (List<Map<String, Object>>) Optional.ofNullable(map.get("events")).orElse(new ArrayList<>());
-            log.info("Receiver accept sessionId:{} event list size:{}.", sessionId, events.size());
+            log.info("Before filtering sessionId:{} event list size:{}.", sessionId, events.size());
 
             List<Map<String, Object>> eventsFilterResult = events.stream()
                     .filter(event -> isCorrectEvent(sessionId, event)).collect(Collectors.toList());
             map.put("events", eventsFilterResult);
-            log.info("sessionId:{} export event list size:{}", sessionId, eventsFilterResult.size());
+            log.info("After filtering sessionId:{} event list size:{}", sessionId, eventsFilterResult.size());
             data.setData(map);
             batchSend(data);
         } catch (Exception e) {
@@ -99,12 +99,12 @@ public class TaskHandler implements ProcessData {
         for (Map.Entry<String, Integer> entry : timingDataConfig.getTimingDataMapping().entrySet()) {
             String timingDataAttribute = entry.getKey();
             if (timingData.get(timingDataAttribute) == null) {
-                log.info("sessionId:{}, this event is missing necessary parameters:{}.", sessionId, timingDataAttribute);
+                log.info("Filtering sessionId:{}, this event is missing necessary parameters:{}, delete event:{}", sessionId, timingDataAttribute, JSON.toJSON(event));
                 return false;
             }
             int jsonValue = timingData.get(timingDataAttribute) != null ? Integer.parseInt(timingData.get(timingDataAttribute).toString()) : 0;
             if (jsonValue > entry.getValue()) {
-                log.info("sessionId:{}, timing_data:{} is incorrect, event object :{}", sessionId, timingDataAttribute, JSON.toJSON(event));
+                log.info("Filtering sessionId:{}, timing_data:{} is incorrect, delete event:{}", sessionId, timingDataAttribute, JSON.toJSON(event));
                 return false;
             }
         }
@@ -120,7 +120,6 @@ public class TaskHandler implements ProcessData {
         return null;
     }
 
-
     @PreDestroy
     public void close() {
         if (resultQueue.size() == 0) {
@@ -130,7 +129,6 @@ public class TaskHandler implements ProcessData {
         List<DataWrapper> sendList = new ArrayList<>();
         resultQueue.drainTo(sendList);
         exporterExecutor.execute(() -> exporterServer.exportData(sendList));
-
     }
 
 }

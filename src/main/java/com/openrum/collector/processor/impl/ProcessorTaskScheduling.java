@@ -35,14 +35,20 @@ public class ProcessorTaskScheduling extends Thread {
     @Override
     public void run() {
         while (RUN_TAG) {
-            send();
+            preHandleData();
         }
     }
 
-    private void send() {
+    private void preHandleData() {
         DataWrapper data = (DataWrapper) taskQueue.poll();
-        if (data != null) {
+        try {
+            if (data == null) {
+                Thread.sleep(50L);
+                return;
+            }
             processorExecutor.execute(new ProcessDataTask(data));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -52,10 +58,10 @@ public class ProcessorTaskScheduling extends Thread {
     }
 
     @PreDestroy
-    public void close(){
+    public void close() {
         RUN_TAG = false;
-        while(taskQueue.size()>0){
-            send();
+        while (taskQueue.size() > 0) {
+            preHandleData();
         }
     }
 

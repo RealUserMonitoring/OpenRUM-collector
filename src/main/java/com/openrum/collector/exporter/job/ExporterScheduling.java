@@ -29,7 +29,7 @@ public class ExporterScheduling extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) {
-        log.info("Scheduling export data to backend, current list size:{}", resultQueue.size());
+        log.info("Scheduling export monitoring data to backend, current list size:{}", resultQueue.size());
         if (!resultQueue.isEmpty()) {
             List<DataWrapper> sendList = new ArrayList<>();
             resultQueue.drainTo(sendList);

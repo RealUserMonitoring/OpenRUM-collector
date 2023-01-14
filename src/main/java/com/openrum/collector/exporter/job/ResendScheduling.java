@@ -49,6 +49,7 @@ public class ResendScheduling extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         try {
+            log.info("Resend monitoring data job start.");
             List<File> files = new ArrayList<>(100);
             getFileList(properties.getLocalPath(), files);
             int count = 0;
@@ -76,9 +77,9 @@ public class ResendScheduling extends QuartzJobBean {
                 }
             }
         } catch (Exception e) {
-            log.error("resend monitoring data", e);
+            log.error("Resend monitoring data", e);
         }
-        log.info("resend monitoring data job end.");
+        log.info("Resend monitoring data job end.");
     }
 
     private boolean resend(List<DataWrapper> list, CountDownLatch countDownLatch) {
@@ -95,7 +96,7 @@ public class ResendScheduling extends QuartzJobBean {
     private void deleteFile(File file) {
         boolean delete = file.delete();
         if (!delete) {
-            log.error("failed to ,文件名字为:{}", file.getName());
+            log.error("Failed to ,filename:{}", file.getName());
             int count = 0;
             do {
                 if (count == COUNT) {
@@ -104,7 +105,7 @@ public class ResendScheduling extends QuartzJobBean {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
-                    log.error("delete file", e);
+                    log.error("Delete file", e);
                 }
                 delete = file.delete();
                 count++;
