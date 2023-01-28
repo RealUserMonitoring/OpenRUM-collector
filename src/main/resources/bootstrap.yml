@@ -3,20 +3,21 @@ server:
 
 spring:
   application:
-    name: openrum-collector
+    name: OpenRUM-collector
   cloud:
     nacos:
       username:
       password:
       discovery:
-        server-addr: 10.241.60.20:8848
-        namespace: RUM_ALI
-        group: openrum-collector
+        server-addr: ${NACOS_SERVER:127.0.0.1:8848}
+        namespace: ${NAMESPACE:dev}
+        group: ${GROUP:DEFAULT_GROUP}
       config:
-        server-addr: 10.241.60.20:8848
-        namespace: RUM_ALI
+        server-addr: ${NACOS_SERVER:127.0.0.1:8848}
+        namespace: ${NAMESPACE:dev}
         timeout: 3000
-        refresh-enabled: true  #修改后自动加载
-        group: openrum-collector
+        refresh-enabled: true
+        group: ${GROUP:DEFAULT_GROUP}
+        name: ${DATA_ID:${spring.application.name}}
         prefix:
         file-extension: yaml
