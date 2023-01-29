@@ -27,12 +27,14 @@ timing.data:
   domLoading: 500
   domInteractive: 500
 
-exporter.batch.send:
-  sendSize: 2
-  sendTimeInMilliseconds: 5000
-  retryTimes: 1
-  url: http://192.168.150.87:2222/receiver/send
-  resendTimeInMilliseconds: 10000
+exporter.batch:
+  send:
+    sendSize: 2
+    sendTimeInMilliseconds: 20000
+    retryTimes: 1
+    url: http://127.0.0.1:8891/exporter/send
+  resend:
+    resendTimeInMilliseconds: 20000
 
 logging:
   config: classpath:logback-spring.xml

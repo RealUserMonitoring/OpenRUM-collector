@@ -1,7 +1,7 @@
 package com.openrum.collector.exporter.config;
 
 import com.openrum.collector.exporter.job.ResendScheduling;
-import com.openrum.collector.exporter.properties.ExporterProperties;
+import com.openrum.collector.exporter.properties.ExporterResendProperties;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class ResendConfig {
 
     @Resource
-    private ExporterProperties properties;
+    private ExporterResendProperties properties;
 
     @Bean
     public JobDetail jobDetailResend() {

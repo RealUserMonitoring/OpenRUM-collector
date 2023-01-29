@@ -16,7 +16,6 @@ spring:
         server-addr: ${NACOS_SERVER:127.0.0.1:8848}
         namespace: ${NAMESPACE:dev}
         timeout: 3000
-        refresh-enabled: true
         group: ${GROUP:DEFAULT_GROUP}
         name: ${DATA_ID:${spring.application.name}}
         prefix:
