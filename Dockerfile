@@ -6,6 +6,8 @@ COPY target/OpenRUM-collector.jar OpenRUM-collector.jar
 
 COPY target/classes/bootstrap.yml /data/br/conf/bootstrap.yml
 
+RUN mkdir -p /data/br/logs
+
 ENV JAVA_OPTS="\
 -server \
 -Xms2048m \
