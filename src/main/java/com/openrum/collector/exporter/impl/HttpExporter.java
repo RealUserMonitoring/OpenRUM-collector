@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -39,20 +40,18 @@ public class HttpExporter implements Exporter {
             try {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                log.info("backend url: {}", url);
                 List<Object> data = list.stream().map(DataWrapper::getData).collect(Collectors.toList());
                 String json = JSON.toJSONString(data);
                 HttpEntity<ByteArrayResource> postEntity = new HttpEntity<>(new ByteArrayResource(json.getBytes()), headers);
                 ResponseEntity<String> response = restTemplate.postForEntity(url, postEntity, String.class);
                 if (response.getStatusCodeValue() == HttpStatus.OK.value()) {
-                    log.info("request {}, responseBody is {}", isSuccess, response.getBody());
                     isSuccess = true;
                     break;
                 } else {
-                    log.info("response error,responseBody is {}", response.getBody());
+                    log.info("Response error,url is {}, responseBody is {}", url, response.getBody());
                 }
             } catch (Exception e) {
-                log.error("exporter request failed at {} times,total {} times,reason: {}", i, properties.getRetryTimes(), e);
+                log.error("Exporter request failed at {} times,total {} times,reason: {}", i, properties.getRetryTimes(), e);
             }
         }
         return isSuccess;

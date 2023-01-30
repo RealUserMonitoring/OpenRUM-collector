@@ -21,7 +21,7 @@ import java.util.List;
 public class ExporterScheduling extends QuartzJobBean {
 
     @Resource
-    @Qualifier(value = "resultQueue")
+    @Qualifier("resultQueue")
     private AbstractDataQueue<?> resultQueue;
 
     @Resource
