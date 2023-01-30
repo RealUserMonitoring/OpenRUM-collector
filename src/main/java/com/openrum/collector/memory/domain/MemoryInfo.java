@@ -17,13 +17,16 @@ public class MemoryInfo {
     private Long maxFreeMemory;
 
     /**
-    * @Description: validate free memory
-    * @Param: []
-    * @return: boolean
-    */
-    public boolean enoughMemory(){
-        long maxMemory = Runtime.getRuntime().maxMemory()/1024/1024;
-        long totalMemory = Runtime.getRuntime().totalMemory()/1024/1024;
-        return maxMemory-totalMemory>this.maxFreeMemory;
+     * @Description: validate free memory
+     * @Param: []
+     * @return: boolean
+     */
+    public boolean enoughMemory() {
+        long maxMemory = Runtime.getRuntime().maxMemory() / 1024 / 1024;
+        long totalMemory = Runtime.getRuntime().totalMemory() / 1024 / 1024;
+        long freeMemory = Runtime.getRuntime().freeMemory() / 1024 / 1024;
+        long usedMemory = totalMemory - freeMemory;
+        long remain = maxMemory- usedMemory;
+        return remain > this.maxFreeMemory;
     }
 }
