@@ -96,6 +96,9 @@ public class TaskHandler implements ProcessData {
     public boolean checkTimingData(String sessionId, Map<String, Object> event) {
         String attributeKey = getTimingDataAttributeKey(event.get("event_type").toString());
         Map<String, Object> timingData = JSONObject.parseObject(event.get(attributeKey).toString(), Map.class);
+        if(timingData == null || timingData.isEmpty()){
+            return true;
+        }
         for (Map.Entry<String, Integer> entry : timingDataConfig.getTimingDataMapping().entrySet()) {
             String timingDataAttribute = entry.getKey();
             if (timingData.get(timingDataAttribute) == null) {
