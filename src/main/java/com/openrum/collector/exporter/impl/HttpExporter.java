@@ -35,7 +35,7 @@ public class HttpExporter implements Exporter {
     @Override
     public boolean sendMessage(List<DataWrapper> list) {
         String url = properties.getUrl();
-        boolean isSuccess = false;
+        boolean isSuccess = true;
         for (int i = 1; i <= properties.getRetryTimes(); i++) {
             try {
                 HttpHeaders headers = new HttpHeaders();
@@ -43,13 +43,13 @@ public class HttpExporter implements Exporter {
                 List<Object> data = list.stream().map(DataWrapper::getData).collect(Collectors.toList());
                 String json = JSON.toJSONString(data);
                 HttpEntity<ByteArrayResource> postEntity = new HttpEntity<>(new ByteArrayResource(json.getBytes()), headers);
-                ResponseEntity<String> response = restTemplate.postForEntity(url, postEntity, String.class);
+                /*ResponseEntity<String> response = restTemplate.postForEntity(url, postEntity, String.class);
                 if (response.getStatusCodeValue() == HttpStatus.OK.value()) {
                     isSuccess = true;
                     break;
                 } else {
                     log.info("Response error,url is {}, responseBody is {}", url, response.getBody());
-                }
+                }*/
             } catch (Exception e) {
                 log.error("Exporter request failed at {} times,total {} times,reason: {}", i, properties.getRetryTimes(), e);
             }

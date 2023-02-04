@@ -1,14 +1,15 @@
+#鉴权使用的账号密码
 login:
   username: admin
   password: admin
-
+#最小保留的可用内存
 memory:
   maxFreeMemory: 128
-
+#存储队列与长度 type:local,kafka
 queue:
   type: local
   size: 100000
-
+# 线程池核心参数
 executor:
   processor:
     corePoolSize: 3
@@ -22,11 +23,11 @@ executor:
     corePoolSize: 3
     maxPoolSize: 10
     queueSize: 2000
-
+#timing data校验的范围
 timing.data:
   domLoading: 500
   domInteractive: 500
-
+#导出的相关设置
 exporter.batch:
   send:
     sendSize: 2
@@ -35,14 +36,15 @@ exporter.batch:
     url: http://127.0.0.1:8891/exporter/send
   resend:
     resendTimeInMilliseconds: 20000
-
+#日志
 logging:
   config: classpath:logback-spring.xml
   level:
     com.openrum: info
-
+# 可靠性保证 本地存储路径
 fail.backup:
     localPath: /data/openrum/backup
+# 健康检测频率
 extension:
   monitor:
     intervalInMilliseconds: 30000
