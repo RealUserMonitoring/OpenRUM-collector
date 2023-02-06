@@ -26,7 +26,7 @@ executor:
 #timing data校验的范围
 timing.data:
   domLoading: 500
-  domInteractive: 500
+  domInteractive: 4500
 #导出的相关设置
 exporter.batch:
   send:
@@ -34,6 +34,8 @@ exporter.batch:
     sendTimeInMilliseconds: 20000
     retryTimes: 1
     url: http://127.0.0.1:8891/exporter/send
+    clients:
+      - com.openrum.collector.exporter.impl.HttpExporter
   resend:
     resendTimeInMilliseconds: 20000
 #日志

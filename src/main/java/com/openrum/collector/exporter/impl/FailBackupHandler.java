@@ -28,7 +28,7 @@ public class FailBackupHandler implements FailBackup {
     private FailBackupProperties properties;
 
     @Resource
-    private HttpExporter httpExporter;
+    private ExportAdapter exportAdapter;
 
     @Override
     public void backup(List<DataWrapper> list) {
@@ -61,7 +61,7 @@ public class FailBackupHandler implements FailBackup {
     }
 
     public boolean resend(List<DataWrapper> list) {
-        return httpExporter.sendMessage(list);
+        return exportAdapter.sendMessage(list);
     }
 
 }

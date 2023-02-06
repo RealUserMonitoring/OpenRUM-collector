@@ -1,8 +1,8 @@
 package com.openrum.collector.exporter.job;
 
 import com.openrum.collector.exporter.DataWrapper;
+import com.openrum.collector.exporter.impl.ExportAdapter;
 import com.openrum.collector.exporter.impl.FailBackupHandler;
-import com.openrum.collector.exporter.impl.HttpExporter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExporterServer {
 
     @Resource
-    private HttpExporter httpExporter;
+    private ExportAdapter exportAdapter;
 
     @Resource
     private FailBackupHandler failBackup;
@@ -34,7 +34,7 @@ public class ExporterServer {
             list.stream().forEach(o -> atomicInteger.incrementAndGet());
             log.debug("Exporter data count:{}", atomicInteger.get());
         }
-        boolean isSuccess = httpExporter.sendMessage(list);
+        boolean isSuccess = exportAdapter.sendMessage(list);
         if (!isSuccess) {
             failBackup.backup(list);
         }

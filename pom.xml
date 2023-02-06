@@ -21,6 +21,8 @@
         <jwt.version>3.19.2</jwt.version>
         <commons.lang.version>3.12.0</commons.lang.version>
         <spring-cloud.version>2.2.6.RELEASE</spring-cloud.version>
+        <collector-exporter.version>1.0-SNAPSHOT</collector-exporter.version>
+        <collector-exporter-http.version>1.0-SNAPSHOT</collector-exporter-http.version>
     </properties>
     <dependencies>
         <dependency>
@@ -72,6 +74,18 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
             <version>2.2.6.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.openrum.collector</groupId>
+            <artifactId>exporter-core</artifactId>
+            <version>${collector-exporter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.openrum.collector</groupId>
+            <artifactId>exporter-http</artifactId>
+            <version>${collector-exporter-http.version}</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

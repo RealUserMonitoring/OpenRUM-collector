@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author zhaoc
  */
@@ -19,4 +21,6 @@ public class ExporterProperties {
     private int retryTimes;
 
     private String url;
+
+    private List<String> clients;
 }
