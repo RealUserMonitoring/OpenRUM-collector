@@ -2,7 +2,6 @@ package com.openrum.collector.exporter.job;
 
 import com.openrum.collector.exporter.DataWrapper;
 import com.openrum.collector.queue.AbstractDataQueue;
-import com.openrum.collector.queue.DataQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Qualifier;

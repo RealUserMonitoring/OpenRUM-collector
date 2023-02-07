@@ -2,9 +2,9 @@ FROM openjdk:8-jre
 
 WORKDIR /data/br
 
-COPY target/OpenRUM-collector.jar OpenRUM-collector.jar
+COPY collector-core/target/OpenRUM-collector.jar OpenRUM-collector.jar
 
-COPY target/classes/bootstrap.yml /data/br/conf/bootstrap.yml
+COPY collector-core/target/classes/bootstrap.yml /data/br/conf/bootstrap.yml
 
 RUN mkdir -p /data/br/logs
 
