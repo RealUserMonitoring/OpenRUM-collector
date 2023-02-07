@@ -1,0 +1,22 @@
+server:
+  port: 8890
+
+spring:
+  application:
+    name: OpenRUM-collector
+  cloud:
+    nacos:
+      username:
+      password:
+      discovery:
+        server-addr: ${NACOS_SERVER:127.0.0.1:8848}
+        namespace: ${NAMESPACE:dev}
+        group: ${GROUP:DEFAULT_GROUP}
+      config:
+        server-addr: ${NACOS_SERVER:127.0.0.1:8848}
+        namespace: ${NAMESPACE:dev}
+        timeout: 3000
+        group: ${GROUP:DEFAULT_GROUP}
+        name: ${DATA_ID:${spring.application.name}}
+        prefix:
+        file-extension: yaml
